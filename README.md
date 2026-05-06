@@ -22,7 +22,6 @@ Secret for sensitive data
 PersistentVolumeClaim for data persistence
 Liveness and Readiness Probes
 Rolling updates with zero downtime
-📂 Project Structure
 
 🛠 How to Run Locally (Kind)
 1. Build Docker image
