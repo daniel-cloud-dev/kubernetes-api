@@ -24,20 +24,6 @@ Liveness and Readiness Probes
 Rolling updates with zero downtime
 📂 Project Structure
 
-project-ks8/
-├── app/
-│ ├── app.py
-│ ├── requirements.txt
-│ └── Dockerfile
-├── k8s/
-│ ├── deployment.yaml
-│ ├── service.yaml
-│ ├── ingress.yaml
-│ ├── configmap.yaml
-│ ├── secret.yaml
-│ └── pvc.yaml
-└── README.md
-
 🛠 How to Run Locally (Kind)
 1. Build Docker image
 
