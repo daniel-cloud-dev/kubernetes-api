@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: flask-api
+  template:
+    metadata:
+      labels:
+        app: flask-api
+    spec:
+      containers:
+      - name: app
+        image: flask-api:v2
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            cpu: "100m" 
+            memory: "128Mi"
+          limits:
+            cpu: "100m" 
+            memory: "128Mi"                   
+        env:
+        - name: APP_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: APP_ENV
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: storage
+          mountPath: /data
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10          
+
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: flask-api-pvc        
